@@ -5,7 +5,7 @@ on:
     branches:
       - master
     tags-ignore:
-      - '**'
+      - "**"
 
   pull_request:
     branches:
@@ -13,10 +13,9 @@ on:
 
 jobs:
   build:
-
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
     # Ubuntu is tested on all pushes
     runs-on: windows-latest
@@ -36,7 +35,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Install comparison dependencies
-        if: ${{ matrix.python-version != '3.12' }}
+        if: ${{ matrix.python-version != '3.13' }}
         run: |
           pip install -r comparison-requirements.txt
 
@@ -44,7 +43,7 @@ jobs:
         run: pytest tests/ checkpointing/
 
       - name: Run integration tests
-        if: ${{ matrix.python-version != '3.12' }}
+        if: ${{ matrix.python-version != '3.13' }}
         run: python -m integtests.run --wait-sec 3
 
       - name: "Upload coverage to Codecov"
